@@ -107,6 +107,7 @@ CI/CD YAML generation
 Architecture refactoring suggestions
 
 🏗️ 6. System Architecture
+
 🧩 6.1 Modular Monolith (Initial Phase)
 
 Modules:
