@@ -1,9 +1,9 @@
 using ARAP.Modules.ResearchProposal.Api;
 using ARAP.Modules.DocumentReview.Api;
-// using ARAP.Modules.ProgressTracking.Api;
-// using ARAP.Modules.AcademicIntegrity.Api;
-// using ARAP.Modules.Notifications.Api;
-// using ARAP.Infrastructure.Outbox;
+using ARAP.Modules.ProgressTracking.Api;
+using ARAP.Modules.AcademicIntegrity.Api;
+using ARAP.Modules.Notifications.Api;
+using ARAP.Infrastructure.Outbox;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,9 +59,9 @@ builder.Services.AddSwaggerGen(c =>
 // Register Modules
 builder.Services.AddResearchProposalModule(builder.Configuration);
 builder.Services.AddDocumentReviewModule(builder.Configuration);
-// builder.Services.AddProgressTrackingModule(builder.Configuration);
-// builder.Services.AddAcademicIntegrityModule(builder.Configuration);
-// builder.Services.AddNotificationsModule(builder.Configuration);
+builder.Services.AddProgressTrackingModule(builder.Configuration);
+builder.Services.AddAcademicIntegrityModule(builder.Configuration);
+builder.Services.AddNotificationsModule(builder.Configuration);
 
 // Add Authentication & Authorization (JWT Bearer with Keycloak)
 // To disable authentication for testing, set "DisableAuthentication": true in appsettings.json
@@ -94,12 +94,12 @@ if (!disableAuth)
 else
 {
     // Allow anonymous access for all endpoints (development only)
-    // builder.Services.AddAuthentication(options =>
-    // {
-    //     options.DefaultScheme = "TestScheme";
-    //     options.DefaultChallengeScheme = "TestScheme";
-    // })
-    // .AddScheme<Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions, TestAuthenticationHandler>("TestScheme", options => { });
+    builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultScheme = "TestScheme";
+        options.DefaultChallengeScheme = "TestScheme";
+    })
+    .AddScheme<Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions, TestAuthenticationHandler>("TestScheme", options => { });
     
     builder.Services.AddAuthorization(options =>
     {
