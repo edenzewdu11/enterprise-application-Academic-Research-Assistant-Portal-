@@ -51,7 +51,7 @@ public sealed class DocumentConfiguration : IEntityTypeConfiguration<Document>
             .IsRequired()
             .HasMaxLength(50)
             .HasColumnName("status");
-
+            
         builder.Property(d => d.Version)
             .IsRequired()
             .HasColumnName("version");
