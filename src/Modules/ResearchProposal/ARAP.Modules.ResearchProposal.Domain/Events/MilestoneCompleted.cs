@@ -2,9 +2,7 @@ using ARAP.SharedKernel;
 
 namespace ARAP.Modules.ResearchProposal.Domain.Events;
 
-/// <summary>
-/// Event raised when a milestone in a research proposal is completed
-/// </summary>
+
 public sealed record MilestoneCompleted : DomainEvent
 {
     public Guid ProposalId { get; init; }
