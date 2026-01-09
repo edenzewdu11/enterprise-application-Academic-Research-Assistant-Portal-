@@ -6,18 +6,14 @@ using ResearchProposalAggregate = ARAP.Modules.ResearchProposal.Domain.Aggregate
 
 namespace ARAP.Modules.ResearchProposal.Infrastructure.Persistence.Configurations;
 
-/// <summary>
-/// EF Core configuration for ResearchProposal aggregate root
-/// Maps domain model to database schema with value object conversions
-/// </summary>
+
 public sealed class ResearchProposalConfiguration : IEntityTypeConfiguration<ResearchProposalAggregate>
 {
     public void Configure(EntityTypeBuilder<ResearchProposalAggregate> builder)
     {
-        // Table configuration
+      
         builder.ToTable("research_proposals");
 
-        // Primary key - convert ResearchProposalId value object to Guid
         builder.HasKey(p => p.Id);
         builder.Property(p => p.Id)
             .HasConversion(
