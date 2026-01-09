@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\ResearchProposal\ARAP.Modules.ResearchProposal.Api\ARAP.Modules.ResearchProposal.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\ResearchProposal\ARAP.Modules.ResearchProposal.Infrastructure\ARAP.Modules.ResearchProposal.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\DocumentReview\ARAP.Modules.DocumentReview.Api\ARAP.Modules.DocumentReview.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\ProgressTracking\ARAP.Modules.ProgressTracking.Api\ARAP.Modules.ProgressTracking.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\AcademicIntegrity\ARAP.Modules.AcademicIntegrity.Api\ARAP.Modules.AcademicIntegrity.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\Notifications\ARAP.Modules.Notifications.Api\ARAP.Modules.Notifications.Api.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\ARAP.Infrastructure.Outbox\ARAP.Infrastructure.Outbox.csproj" />
+  </ItemGroup>
+
+</Project>

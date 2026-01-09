@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ARAP.Modules.AcademicIntegrity.Application\ARAP.Modules.AcademicIntegrity.Application.csproj" />
+    <ProjectReference Include="..\ARAP.Modules.AcademicIntegrity.Infrastructure\ARAP.Modules.AcademicIntegrity.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
