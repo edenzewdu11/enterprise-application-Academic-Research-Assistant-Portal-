@@ -3,9 +3,7 @@ using ARAP.Modules.ResearchProposal.Domain.ValueObjects;
 
 namespace ARAP.Modules.ResearchProposal.Domain.Events;
 
-/// <summary>
-/// Event raised when a research proposal is submitted for review
-/// </summary>
+
 public sealed record ProposalSubmitted : DomainEvent
 {
     public Guid ProposalId { get; init; }
