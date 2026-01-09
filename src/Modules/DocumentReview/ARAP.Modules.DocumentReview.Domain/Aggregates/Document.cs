@@ -4,9 +4,6 @@ using ARAP.Modules.DocumentReview.Domain.Events;
 
 namespace ARAP.Modules.DocumentReview.Domain.Aggregates;
 
-/// <summary>
-/// Document aggregate root - represents a research document submitted for review
-/// </summary>
 public sealed class Document : AggregateRoot<DocumentId>
 {
     public Guid ProposalId { get; private set; }
