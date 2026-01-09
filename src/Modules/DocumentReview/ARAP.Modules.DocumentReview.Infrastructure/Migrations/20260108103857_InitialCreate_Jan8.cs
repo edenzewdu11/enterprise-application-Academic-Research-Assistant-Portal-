@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ARAP.Modules.DocumentReview.Infrastructure.Migrations
 {
-    /// <inheritdoc />
+   
     public partial class InitialCreate_Jan8 : Migration
     {
-        /// <inheritdoc />
+        
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
