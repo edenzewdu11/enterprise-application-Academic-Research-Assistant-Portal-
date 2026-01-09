@@ -2,9 +2,6 @@ using ARAP.SharedKernel;
 
 namespace ARAP.Modules.ResearchProposal.Domain.Events;
 
-/// <summary>
-/// Event raised when a research proposal is rejected
-/// </summary>
 public sealed record ProposalRejected : DomainEvent
 {
     public Guid ProposalId { get; init; }
