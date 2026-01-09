@@ -3,9 +3,7 @@ using ARAP.Modules.ResearchProposal.Domain.ValueObjects;
 
 namespace ARAP.Modules.ResearchProposal.Domain.Entities;
 
-/// <summary>
-/// Represents a milestone in the research proposal lifecycle
-/// </summary>
+
 public sealed class Milestone : Entity<MilestoneId>
 {
     public MilestoneType Type { get; private set; }
@@ -14,7 +12,7 @@ public sealed class Milestone : Entity<MilestoneId>
     public DateTime? CompletionDate { get; private set; }
     public MilestoneStatus Status { get; private set; }
 
-    // EF Core constructor
+   
     private Milestone() : base(MilestoneId.CreateUnique()) { }
 
     private Milestone(
