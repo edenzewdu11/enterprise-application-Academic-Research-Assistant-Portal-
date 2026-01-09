@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keycloak Token Helper - ARAP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        .user-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .user-btn {
+            padding: 15px;
+            border: 2px solid #667eea;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .user-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        .user-btn .role {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .user-btn .credentials {
+            font-size: 12px;
+            color: #666;
+            font-family: 'Courier New', monospace;
+        }
+        .user-btn:hover .credentials {
+            color: white;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 10px 0;
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            resize: vertical;
+            margin-top: 10px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .decode-btn {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        .decode-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        .token-info {
+            margin-top: 20px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .token-info h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .claim-item {
+            padding: 10px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-radius: 4px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .claim-label {
+            font-weight: bold;
+            color: #667eea;
+            min-width: 180px;
+            font-size: 13px;
+        }
+        .claim-value {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            word-break: break-all;
+            flex: 1;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        .alert-info {
+            background: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            color: #0c5460;
+        }
+        .alert-warning {
+            background: #fff3cd;
+            border-left: 4px solid #856404;
+            color: #856404;
+        }
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 Keycloak Token Helper</h1>
+            <p>Academic Research Assistant Portal - Token Generation & Decoder</p>
+        </div>
+
+        <div class="content">
+            <!-- Step 1: Generate Token -->
+            <div class="section">
+                <h2><span class="step-number">1</span>Generate Token (Run in Terminal)</h2>
+                <div class="alert alert-warning">
+                    ⚠️ Browser CORS restrictions prevent direct token requests. Copy and run the command below in your terminal.
+                </div>
+                
+                <div class="user-buttons">
+                    <div class="user-btn" onclick="showCommand('student1', 'student123')">
+                        <div class="role">👨‍🎓 Student</div>
+                        <div class="credentials">student1 / student123</div>
+                    </div>
+                    <div class="user-btn" onclick="showCommand('advisor1', 'advisor123')">
+                        <div class="role">👨‍🏫 Advisor</div>
+                        <div class="credentials">advisor1 / advisor123</div>
+                    </div>
+                    <div class="user-btn" onclick="showCommand('admin', 'admin123')">
+                        <div class="role">👨‍💼 Admin</div>
+                        <div class="credentials">admin / admin123</div>
+                    </div>
+                </div>
+
+                <div id="commandBlock"></div>
+            </div>
+
+            <!-- Step 2: Decode Token -->
+            <div class="section">
+                <h2><span class="step-number">2</span>Decode Token & Extract User ID</h2>
+                <div class="alert alert-info">
+                    ℹ️ Paste your JWT token below to extract the User ID (<code>sub</code> claim) and other important information.
+                </div>
+                
+                <label for="tokenInput" style="font-weight: bold; color: #333; display: block; margin-bottom: 5px;">
+                    Paste JWT Token Here:
+                </label>
+                <textarea id="tokenInput" placeholder="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."></textarea>
+                <button class="decode-btn" onclick="decodeToken()">🔍 Decode Token & Show User ID</button>
+
+                <div id="tokenResult"></div>
+            </div>
+
+            <!-- Step 3: Use in API -->
+            <div class="section">
+                <h2><span class="step-number">3</span>Use Token in API Requests</h2>
+                <p style="margin-bottom: 15px; color: #666;">Add the token to your request headers:</p>
+                <div class="code-block">Authorization: Bearer YOUR_TOKEN_HERE</div>
+                <p style="margin-top: 15px; color: #666;">In Swagger UI: Click 🔒 Authorize button, paste token with "Bearer " prefix</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showCommand(username, password) {
+            const bashCmd = `curl -s -X POST "http://localhost:8080/realms/arap/protocol/openid-connect/token" -d "client_id=arap-api" -d "client_secret=arap-api-secret-change-in-production" -d "grant_type=password" -d "username=${username}" -d "password=${password}" | grep -o '"access_token":"[^"]*"' | cut -d'"' -f4`;
+
+            const pwshCmd = `(Invoke-RestMethod -Uri "http://localhost:8080/realms/arap/protocol/openid-connect/token" -Method POST -ContentType "application/x-www-form-urlencoded" -Body @{client_id="arap-api";client_secret="arap-api-secret-change-in-production";grant_type="password";username="${username}";password="${password}"}).access_token`;
+
+            const html = `
+                <h3 style="color: #667eea; margin: 20px 0 10px 0;">Bash / Git Bash:</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyToClipboard(\`${bashCmd.replace(/`/g, '\\`')}\`)">📋 Copy</button>
+                    ${bashCmd}
+                </div>
+
+                <h3 style="color: #667eea; margin: 20px 0 10px 0;">PowerShell:</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyToClipboard(\`${pwshCmd.replace(/`/g, '\\`')}\`)">📋 Copy</button>
+                    ${pwshCmd}
+                </div>
+            `;
+
+            document.getElementById('commandBlock').innerHTML = html;
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Command copied to clipboard!');
+            });
+        }
+
+        function decodeToken() {
+            const token = document.getElementById('tokenInput').value.trim();
+            const resultDiv = document.getElementById('tokenResult');
+
+            if (!token) {
+                resultDiv.innerHTML = '<div class="alert alert-warning">⚠️ Please paste a token first</div>';
+                return;
+            }
+
+            try {
+                // JWT tokens have 3 parts separated by dots
+                const parts = token.split('.');
+                if (parts.length !== 3) {
+                    throw new Error('Invalid JWT format');
+                }
+
+                // Decode the payload (2nd part)
+                const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+
+                // Extract important claims
+                const userId = payload.sub || 'Not found';
+                const username = payload.preferred_username || 'Not found';
+                const roles = payload.realm_access?.roles || [];
+                const email = payload.email || 'Not found';
+                const name = payload.name || 'Not found';
+                const expiration = payload.exp ? new Date(payload.exp * 1000).toLocaleString() : 'Not found';
+                const issuer = payload.iss || 'Not found';
+
+                resultDiv.innerHTML = `
+                    <div class="token-info">
+                        <h3>✅ Token Decoded Successfully</h3>
+                        
+                        <div class="claim-item" style="background: #d4edda; border-left: 4px solid #28a745;">
+                            <div class="claim-label">🆔 User ID (sub):</div>
+                            <div class="claim-value"><span class="highlight">${userId}</span></div>
+                        </div>
+                        
+                        <div class="claim-item">
+                            <div class="claim-label">👤 Username:</div>
+                            <div class="claim-value">${username}</div>
+                        </div>
+                        
+                        <div class="claim-item" style="background: #fff3cd; border-left: 4px solid #ffc107;">
+                            <div class="claim-label">🎭 Roles:</div>
+                            <div class="claim-value"><span class="highlight">${roles.join(', ')}</span></div>
+                        </div>
+                        
+                        <div class="claim-item">
+                            <div class="claim-label">📧 Email:</div>
+                            <div class="claim-value">${email}</div>
+                        </div>
+                        
+                        <div class="claim-item">
+                            <div class="claim-label">📝 Full Name:</div>
+                            <div class="claim-value">${name}</div>
+                        </div>
+                        
+                        <div class="claim-item">
+                            <div class="claim-label">⏰ Expires At:</div>
+                            <div class="claim-value">${expiration}</div>
+                        </div>
+                        
+                        <div class="claim-item">
+                            <div class="claim-label">🏛️ Issuer:</div>
+                            <div class="claim-value">${issuer}</div>
+                        </div>
+
+                        <div class="alert alert-info" style="margin-top: 20px;">
+                            💡 <strong>Copy this User ID:</strong> <code style="background: #fff3cd; padding: 4px 8px; border-radius: 3px; font-size: 14px;">${userId}</code><br>
+                            Use it for <code>studentId</code> or <code>advisorId</code> fields in your API requests.
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="token-info">
+                        <h3 style="color: #dc3545;">❌ Error Decoding Token</h3>
+                        <div class="alert alert-warning">
+                            ${error.message}<br><br>
+                            Make sure you pasted a valid JWT token (should start with "eyJ").
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Show student command by default
+        window.onload = function() {
+            showCommand('student1', 'student123');
+        };
+    </script>
+</body>
+</html>
