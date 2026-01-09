@@ -24,11 +24,7 @@ public class ProposalsController : ControllerBase
         _mediator = mediator;
     }
 
-    /// <summary>
-    /// Create a new research proposal draft
-    /// </summary>
-    /// <param name="command">Proposal details</param>
-    /// <returns>Created proposal ID</returns>
+    
     [HttpPost]
     [Authorize(Roles = "student")]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
@@ -36,7 +32,7 @@ public class ProposalsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> CreateProposal([FromBody] CreateProposalCommand command)
     {
-        // Create a new command with the student ID from the authenticated user
+        
         var commandWithUserId = command with { StudentId = GetCurrentUserId() };
         
         var proposalId = await _mediator.Send(commandWithUserId);
@@ -48,11 +44,7 @@ public class ProposalsController : ControllerBase
         );
     }
 
-    /// <summary>
-    /// Submit a draft proposal for advisor review
-    /// </summary>
-    /// <param name="id">Proposal ID</param>
-    /// <returns>Success status</returns>
+    
     [HttpPost("{id}/submit")]
     [Authorize(Roles = "student")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -73,12 +65,7 @@ public class ProposalsController : ControllerBase
         return Ok(new { message = "Proposal submitted successfully" });
     }
 
-    /// <summary>
-    /// Approve a submitted research proposal (Advisor only)
-    /// </summary>
-    /// <param name="id">Proposal ID</param>
-    /// <param name="request">Optional approval comments</param>
-    /// <returns>Success status</returns>
+    
     [HttpPost("{id}/approve")]
     [Authorize(Roles = "advisor")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -105,11 +92,7 @@ public class ProposalsController : ControllerBase
         return Ok(new { message = "Proposal approved successfully" });
     }
 
-    /// <summary>
-    /// Get a research proposal by ID
-    /// </summary>
-    /// <param name="id">Proposal ID</param>
-    /// <returns>Proposal details</returns>
+    
     [HttpGet("{id}")]
     [Authorize(Roles = "student,advisor")]
     [ProducesResponseType(typeof(ProposalDto), StatusCodes.Status200OK)]
@@ -128,10 +111,7 @@ public class ProposalsController : ControllerBase
         return Ok(proposal);
     }
 
-    /// <summary>
-    /// Get all proposals for the current student
-    /// </summary>
-    /// <returns>List of student's proposals</returns>
+  
     [HttpGet("my")]
     [Authorize(Roles = "student")]
     [ProducesResponseType(typeof(List<ProposalDto>), StatusCodes.Status200OK)]
@@ -159,7 +139,5 @@ public class ProposalsController : ControllerBase
     }
 }
 
-/// <summary>
-/// Request model for approving a proposal
-/// </summary>
+
 public record ApproveProposalRequest(string? Comments);
