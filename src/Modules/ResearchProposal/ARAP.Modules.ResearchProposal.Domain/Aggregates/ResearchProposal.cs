@@ -5,10 +5,7 @@ using ARAP.Modules.ResearchProposal.Domain.ValueObjects;
 
 namespace ARAP.Modules.ResearchProposal.Domain.Aggregates;
 
-/// <summary>
-/// Research Proposal Aggregate Root
-/// Represents a student's research proposal throughout its lifecycle
-/// </summary>
+
 public sealed class ResearchProposal : AggregateRoot<ResearchProposalId>
 {
     private readonly List<Milestone> _milestones = new();
@@ -25,7 +22,7 @@ public sealed class ResearchProposal : AggregateRoot<ResearchProposalId>
     
     public IReadOnlyCollection<Milestone> Milestones => _milestones.AsReadOnly();
 
-    // EF Core constructor
+    
     private ResearchProposal() : base(ResearchProposalId.CreateUnique()) { }
 
     private ResearchProposal(
