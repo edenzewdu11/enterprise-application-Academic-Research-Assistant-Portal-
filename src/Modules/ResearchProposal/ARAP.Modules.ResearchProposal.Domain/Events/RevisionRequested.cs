@@ -2,9 +2,6 @@ using ARAP.SharedKernel;
 
 namespace ARAP.Modules.ResearchProposal.Domain.Events;
 
-/// <summary>
-/// Event raised when revision is requested for a research proposal
-/// </summary>
 public sealed record RevisionRequested : DomainEvent
 {
     public Guid ProposalId { get; init; }
