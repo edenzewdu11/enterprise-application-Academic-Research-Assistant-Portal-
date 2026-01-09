@@ -3,9 +3,7 @@ using ARAP.Modules.DocumentReview.Domain.ValueObjects;
 
 namespace ARAP.Modules.DocumentReview.Domain.Repositories;
 
-/// <summary>
-/// Repository interface for Document aggregate
-/// </summary>
+
 public interface IDocumentRepository
 {
     Task<Document?> GetByIdAsync(DocumentId id, CancellationToken cancellationToken = default);
