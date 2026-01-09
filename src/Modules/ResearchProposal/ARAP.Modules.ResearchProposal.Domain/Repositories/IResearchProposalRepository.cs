@@ -3,10 +3,7 @@ using ARAP.Modules.ResearchProposal.Domain.ValueObjects;
 
 namespace ARAP.Modules.ResearchProposal.Domain.Repositories;
 
-/// <summary>
-/// Repository interface for ResearchProposal aggregate
-/// Follows Repository pattern - only aggregate roots have repositories
-/// </summary>
+
 public interface IResearchProposalRepository
 {
     Task<Aggregates.ResearchProposal?> GetByIdAsync(ResearchProposalId id, CancellationToken cancellationToken = default);
