@@ -1,12 +1,18 @@
 namespace ARAP.SharedKernel;
 
-
+/// <summary>
+/// Base class for enumeration types with value-based equality
+/// </summary>
 public abstract class Enumeration : IEquatable<Enumeration>, IComparable<Enumeration>
 {
-    
+    /// <summary>
+    /// Gets the integer value of the enumeration
+    /// </summary>
     public int Value { get; }
 
-    
+    /// <summary>
+    /// Gets the name of the enumeration
+    /// </summary>
     public string Name { get; }
 
     protected Enumeration(int value, string name)
@@ -17,6 +23,9 @@ public abstract class Enumeration : IEquatable<Enumeration>, IComparable<Enumera
 
     public override string ToString() => Name;
 
+    /// <summary>
+    /// Gets all instances of the enumeration type
+    /// </summary>
     public static IEnumerable<T> GetAll<T>() where T : Enumeration
     {
         var fields = typeof(T).GetFields(System.Reflection.BindingFlags.Public |
@@ -70,11 +79,17 @@ public abstract class Enumeration : IEquatable<Enumeration>, IComparable<Enumera
 
     public static bool operator >=(Enumeration left, Enumeration right) => left.CompareTo(right) >= 0;
 
+    /// <summary>
+    /// Gets enumeration instance by value
+    /// </summary>
     public static T? FromValue<T>(int value) where T : Enumeration
     {
         return GetAll<T>().FirstOrDefault(e => e.Value == value);
     }
 
+    /// <summary>
+    /// Gets enumeration instance by name
+    /// </summary>
     public static T? FromName<T>(string name) where T : Enumeration
     {
         return GetAll<T>().FirstOrDefault(e => string.Equals(e.Name, name, StringComparison.OrdinalIgnoreCase));
