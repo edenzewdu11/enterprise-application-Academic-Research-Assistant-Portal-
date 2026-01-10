@@ -7,13 +7,22 @@ namespace ARAP.Infrastructure.Outbox;
 /// </summary>
 public sealed class OutboxDbContext : DbContext
 {
+    /// <summary>
+    /// Initializes new instance of OutboxDbContext
+    /// </summary>
     public OutboxDbContext(DbContextOptions<OutboxDbContext> options)
         : base(options)
     {
     }
 
+    /// <summary>
+    /// Gets the outbox messages DbSet
+    /// </summary>
     public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
+    /// <summary>
+    /// Configures the model for the outbox context
+    /// </summary>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("outbox");
