@@ -27,7 +27,6 @@ bld/
 
 ## Visual Studio cache/options
 .vs/
-.vscode/
 .idea/
 
 ## Rider
@@ -383,8 +382,6 @@ docker_postgres_data/
 docker_keycloak_data/
 
 ## Local environment files
-.env
-.env.local
 appsettings.Local.json
 
 ## Database files
@@ -405,3 +402,4 @@ Desktop.ini
 ## Custom exclusions for this project
 nul
 *.http
+config.bat

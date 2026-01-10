@@ -5,6 +5,9 @@ using Quartz;
 
 namespace ARAP.Infrastructure.Outbox;
 
+/// <summary>
+/// Extension methods for configuring Transactional Outbox infrastructure
+/// </summary>
 public static class OutboxExtensions
 {
     /// <summary>
