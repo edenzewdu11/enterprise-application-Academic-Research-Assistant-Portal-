@@ -1,4 +1,6 @@
-# .gitignore for .NET 9 Modular Monolith
+# .gitignore for ARAP (Academic Research Assistant Portal)
+# Comprehensive ignore patterns for .NET 9 Modular Monolith architecture
+# Includes patterns for Visual Studio, Rider, Docker, databases, and more
 
 ## User-specific files
 *.rsuser
