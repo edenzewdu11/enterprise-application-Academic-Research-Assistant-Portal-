@@ -1,9 +1,13 @@
 namespace ARAP.SharedKernel;
 
-
+/// <summary>
+/// Base class for value objects implementing equality based on values
+/// </summary>
 public abstract class ValueObject : IEquatable<ValueObject>
 {
-    
+    /// <summary>
+    /// Gets the components that define equality for this value object
+    /// </summary>
     protected abstract IEnumerable<object?> GetEqualityComponents();
 
     #region Equality
@@ -42,9 +46,14 @@ public abstract class ValueObject : IEquatable<ValueObject>
 
     #endregion
 
-  
+    /// <summary>
+    /// Creates a copy of this value object
+    /// </summary>
     public ValueObject Copy() => this;
 
+    /// <summary>
+    /// Returns string representation of the value object
+    /// </summary>
     public override string ToString()
     {
         return $"{GetType().Name} {{ {string.Join(", ", GetEqualityComponents())} }}";
